@@ -4,7 +4,9 @@ services:
     container_name: splunk-enterprise
     environment:
       - SPLUNK_START_ARGS=--accept-license
+      - SPLUNK_GENERAL_TERMS=--accept-sgt-current-at-splunk-com
       - SPLUNK_PASSWORD=ChangeMe123!
+
     ports:
       - "8000:8000"
       - "9997:9997"
