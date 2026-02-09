@@ -24,4 +24,4 @@
 
 This lab simulates a real-world SOC detection pipeline with isolated endpoints and centralized log analysis
 
-![SOC-Lab-Architecture-Overview](../images/SOC-Lab-Architecture-Overview.png)
+![SOC-Lab-Architecture-Overview](../images/doc01/SOC-Lab-Architecture-Overview.png)

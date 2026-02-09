@@ -2,7 +2,7 @@
 
 ### Objective
 
-Install and configure Splunk Universal Forwarder on a Windows (VMware) endpoint to securely forward Sysmon telemetry to Splunk Enterprise running inside Docker on the host machine.
+Install and configure Splunk Universal Forwarder on a Windows (VMware) endpoint to securely forward Sysmon telemetry to Splunk Enterprise running in Docker on the host machine.
 
 ### Architecture Overview
 
@@ -10,16 +10,16 @@ The Windows endpoint sends Sysmon events to Splunk Enterprise through the Univer
 
 This lab simulates a real-world SOC detection pipeline with isolated endpoints and centralized log analysis.
 
-![Architecture-Overview](../images/Architecture-Overview.png)
+![Architecture-Overview](../images/doc03/Architecture-Overview.png)
 
-- The endpoint does NOT communicate with Docker directly.
+- The endpoint does not communicate directly with Docker.
 - Docker exposes port `9997` on the host.
 - The forwarder sends data to the `host IP`.
 
 ### Security Considerations
 
 - NAT network prevents direct internet exposure.
-- Port `9997` is only accessible inside the local lab.
+- Port `9997` is only accessible within the local lab.
 - No deployment server is used.
 - No malware executed at this stage.
 
@@ -28,9 +28,9 @@ This lab simulates a real-world SOC detection pipeline with isolated endpoints a
 Before installing the forwarder, the following must be completed:
 
 - Splunk Enterprise running in Docker
-- Port `9997` exposed and listening
-- Sysmon installed and generating events
-- Host Windows IP address identified
+- Port `9997` exposed and listening.
+- Sysmon installed and generating events.
+- `Host_Windows_IP` address identified.
 
 ## Sysmon  
 
@@ -42,20 +42,20 @@ On the *Windows VM*:
 
 - Extract `.zip`
 
-![Sysmon-folder](../images/Sysmon-folder.png)
+![Sysmon-folder](../images/doc03/Sysmon-folder.png)
 
 ### Step B – Sysmon Configuration
 
 - Create a Sysmon configuration file.
 
-For this lab, a community-based configuration was used as a baseline (SwiftOnSecurity-style).
+For this lab, a community-based Sysmon configuration was used as a baseline (SwiftOnSecurity-style).
 Example filename:
 
 `sysmon-config.xml`
 
 *Place the file in the same directory as* `Sysmon64.exe`
 
-- Crate a `notepad sysmon-config.xml` and copy:
+- Create `sysmon-config.xml` using Notepad and copy the following configuration:
 
 ```
 <Sysmon schemaversion="4.90">
@@ -71,7 +71,7 @@ Example filename:
 </Sysmon>
 ```
 
-![Sysmon-XML-Configuration](../images/Sysmon-XML-Configuration.png)
+![Sysmon-XML-Configuration](../images/doc03/Sysmon-XML-Configuration.png)
 
 ### Step C – Install Sysmon with XML Configuration
 
@@ -82,8 +82,9 @@ Example filename:
 
 *Expected output indicates successful installation.*
 
-
 `.\Sysmon64.exe -c`
+
+![sysmon-ready-installed](../images/doc03/sysmon-ready-installed.png)
 
 ### XML Configuration Is Required
 
@@ -108,10 +109,9 @@ The XML configuration allows:
 
 On the *host Windows machine* (not the VM):
 
-- powershell
-- ipconfig
-- IPv4 Address: `192.xxx.xxx.xxx`
-- This IP will be used as the receiving indexer address.
+- Open PowerShell
+- Run `ipconfig`
+- Identify the IPv4 Address: `192.xxx.xxx.xxx`
 
 ### Step 2 – Download Splunk Universal Forwarder
 
@@ -133,7 +133,7 @@ Installation Options:
 
 - Set a `username and password`
 
-![splunk-username-password](../images/splunk-username-password.png)
+![splunk-username-password](../images/doc03/splunk-username-password.png)
 
 - Deployment Server (Not used in this lab):
 
@@ -144,9 +144,9 @@ Installation Options:
   - Hostname or IP: `HOST_WINDOWS_IP`
   - Port: `9997`
 
-This configures the forwarder to send data directly to Splunk Enterprise.
+This configuration allows the forwarder to send data directly to Splunk Enterprise.
 
-![Installing-Splunk-Universal-Forwarder](../images/Installing-Splunk-Universal-Forwarder.png)
+![Installing-Splunk-Universal-Forwarder](../images/doc03/Installing-Splunk-Universal-Forwarder.png)
 
 ### Step 4 – Create inputs.conf
 
@@ -167,7 +167,7 @@ index = main
 renderXml = true
 ```
 
-![create-inputs](../images/create-inputs.png)
+![create-inputs](../images/doc03/create-inputs.png)
 
 ### Step 5 – Restart Splunk Forwarder
 
@@ -193,7 +193,7 @@ Restart the forwarder to apply changes:
 
 The screenshot shows Windows PowerShell running as administrator, confirming that the SplunkForwarder and Sysmon64 services are in a Running state. This verifies that both components are properly installed and active on the endpoint.
 
-![splunk-sysmon-running](../images/splunk-sysmon-running.png)
+![splunk-sysmon-running](../images/doc03/splunk-sysmon-running.png)
 
 ### Step 7 – Validate Forwarder Connection to Splunk
 
@@ -213,18 +213,17 @@ To confirm that the Universal Forwarder is successfully sending data to Splunk E
 
 *** *(Tip: use `Ctrl + f` to find faster)*.
 
-
 The splunkd.log file shows the message `Connected to idx=<IP>:9997`, confirming a successful connection between the Universal Forwarder and the Splunk indexer.
 
-![forwarder-connected-9997](../images/forwarder-connected-9997.png)
+![forwarder-connected-9997](../images/doc03/forwarder-connected-9997.png)
 
-- Connected indicates that the forwarder has successfully established a TCP connection to the Splunk receiving port.
+- The Connected message indicates that the forwarder has successfully established a TCP connection to the Splunk receiving port.
 - Port `9997` confirms data is being sent to the configured Splunk receiver.
 - The `host IP` confirms that the forwarder is communicating with the correct destination.
 
 ### Connectivity Verification (Port 9997)
 
-As an additional validation step, to ensure full network connectivity between the Windows VM (Splunk Universal Forwarder) and the Splunk Enterprise instance, the following PowerShell command can be used:
+As an additional validation step to ensure full network connectivity between the Windows VM (Splunk Universal Forwarder) and the Splunk Enterprise instance, the following PowerShell command can be used:
 
 `Test-NetConnection <HOST_WINDOWS_IP> -Port 9997`
 
@@ -235,7 +234,7 @@ A successful result should return:
 
 This confirms that the TCP connection to port `9997` is open and that the forwarder can successfully communicate with the Splunk indexer.
 
-![Connectivity-Verification-Port-9997](../images/Connectivity-Verification-Port-9997.png)
+![Connectivity-Verification-Port-9997](../images/doc03/Connectivity-Verification-Port-9997.png)
 
 ### Step 8 – Generate Test Events
 
@@ -264,9 +263,9 @@ Successful results:
 
 The Splunk web interface at `http://localhost:8000` is displayed, showing Windows Event Logs being indexed. This confirms that the endpoint is successfully sending events to Splunk.
 
-![Events-received-in-Splunk](../images/Events-received-in-Splunk.png)
+![Events-received-in-Splunk](../images/doc03/Events-received-in-Splunk.png)
 
-![Events-compare](../images/Events-compare.png)
+![Events-compare](../images/doc03/Events-compare.png)
 
 #### NOTE
 
