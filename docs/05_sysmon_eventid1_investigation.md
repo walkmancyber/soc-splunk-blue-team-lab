@@ -26,15 +26,13 @@ Reinstallation was completed successfully using:
 - XML schema validation.
 - Service and driver startup without errors.
 
-![Sysmon reinstallation ](../images/doc05/sysmon-reinstallation.png)
-
 Service status verification confirmed:
 
 - Sysmon64 service running.
 
-![Sysmon Reinstallation completed successfully ](../images/doc05/sysmon-running.png)
-
 This confirms that Sysmon was correctly installed and actively monitoring the system.
+
+![Sysmon reinstallation ](../images/doc05/sysmon-reinstallation.png)
 
 ## XML Configuration Adjustments
 
@@ -109,6 +107,6 @@ The logging pipeline (Sysmon → Splunk Universal Forwarder → Splunk Enterpris
 
 While `EventID 1` was not reliably generated in this setup, other Sysmon events validated correct installation, configuration, and data ingestion.
 
-IMAGE
+![EventID1 no results found](../images/doc05/EventID1-no-results-found.png)
 
 For the purposes of this lab, Sysmon was considered functional, and the investigation was documented to record observed limitations before proceeding with alternative event sources.
