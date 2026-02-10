@@ -1,4 +1,4 @@
-# SOC Blue Team Lab with Splunk
+# SOC Lab with Splunk
 
 This project is a hands-on SOC Blue Team laboratory focused on log ingestion,
 analysis, threat detection, and basic incident investigation using Splunk
@@ -38,11 +38,12 @@ sources, data flow, and core components.
 
 | Document | Description |
 |--------|-------------|
-| [**doc01-architecture**](docs/01-architecture.md) | Lab architecture |
-| [**doc02 Environment Setup**](docs/02-environment_setup.md) | Splunk deployment and environment preparation |
-| [**doc03 Forwarder Installation**](docs/03-forwarder_installation.md) | Sysmon64 and Splunk Universal Forwarder installation and configuration |
-| [**doc04 Fix Sysmon Even Colletions Issue**](docs/04-Fix_Sysmon_Event_Collection_Issue.md)| Investigation and resolution of Sysmon ingestion issue |
-| **doc05-detections** | Basic detections and validation queries **Comming soon** |
+| [**Architecture**](docs/01-architecture.md) | Lab architecture |
+| [**Environment Setup**](docs/02-environment_setup.md) | Splunk deployment and environment preparation |
+| [**Forwarder Installation**](docs/03-forwarder_installation.md) | Sysmon64 and Splunk Universal Forwarder installation and configuration |
+| [**Fix Sysmon Even Colletions Issue**](docs/04-Fix_Sysmon_Event_Collection_Issue.md)| Investigation and resolution of Sysmon ingestion issue |
+| [**Sysmon EventID1 Investigation**](docs/05_sysmon_eventid1_investigation.md)| No EventID=1 |
+| **Detections** | Basic detections and validation queries **Comming soon** |
 
 ## Current Status
 
